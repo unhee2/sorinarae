@@ -25,29 +25,17 @@ else:
 
 df = df.fillna("")
 
-
-
-# 정산 금액, 인원 입력 후 미정산 인원 추려내기 
+#정산 금액, 인원 입력 후 미정산 인원 추려내기 
 amount = int(input('정산 금액: '))
-#personnel = int(input('인원: '))
-str = input('인원(복사 후 붙여넣기): ')
-person_list = str.split()
-print(person_list)
 
-settlement = round(amount/len(person_list))
+str = input('인원(복사 후 붙여넣기): ')
+total_mem = str.split()
+
+settlement = round(amount/len(total_mem))
 
 settle_df = df.loc[df['금액']==settlement]
+print(settle_df['내용'].count())
+paid_mem = settle_df['내용'].dropna().tolist()
+not_paid_mem = [mem for mem in total_mem if mem not in paid_mem]
 
-print(settlement)
-
-print(settle_df['금액'].count())
-
-for name in person_list:
-    if(settle_df['내용']==name).any():
-        person_list.remove(name)
-
-print(person_list)
-
-
-# #https://m.blog.naver.com/janghanui/222399697657 
-# # 파일 탐색기 만들어서 찾아서 넣기
+print(not_paid_mem)
